@@ -1,0 +1,30 @@
+#include <iostream>
+int lengthOfLongestSubstring(std::string s) {
+    int n = s.length();
+    int maxLength = 0;
+    int left = 0, right = 0;
+    std::unordered_set<char> charSet;
+
+    while (right < n) {
+        if (charSet.find(s[right]) == charSet.end()) {
+            // Character is not in the current substring
+            charSet.insert(s[right]);
+            maxLength = std::max(maxLength, right - left + 1);
+            right++;
+        } else {
+            // Character is in the current substring, shrink the window from the left
+            charSet.erase(s[left]);
+            left++;
+        }
+    }
+
+    return maxLength;
+}
+
+int main() {
+    std::string input = "abcabcbb";
+    int result = lengthOfLongestSubstring(input);
+    std::cout << "Length of the longest substring without repeating characters: " << result << std::endl;
+
+    return 0;
+}
