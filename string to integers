@@ -1,0 +1,36 @@
+#include <iostream>
+#include <climits>
+
+int myAtoi(std::string str) {
+    int i = 0;
+    int sign = 1;
+    long result = 0;
+
+    while (i < str.length() && str[i] == ' ') {
+        i++;
+    }
+
+    if (i < str.length() && (str[i] == '+' || str[i] == '-')) {
+        sign = (str[i++] == '-') ? -1 : 1;
+    }
+
+    while (i < str.length() && isdigit(str[i])) {
+        result = result * 10 + (str[i++] - '0');
+
+        if (result * sign > INT_MAX) {
+            return INT_MAX;
+        } else if (result * sign < INT_MIN) {
+            return INT_MIN;
+        }
+    }
+
+    return static_cast<int>(result * sign);
+}
+
+int main() {
+    std::string input = "   -42";
+    int result = myAtoi(input);
+    std::cout << "Converted integer: " << result << std::endl;
+
+    return 0;
+}
