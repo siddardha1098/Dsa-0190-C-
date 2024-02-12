@@ -1,0 +1,53 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
+void generateCombinations(std::string digits, int index, std::string current, const std::unordered_map<char, std::string>& digitMap, std::vector<std::string>& result) {
+    if (index == digits.length()) {
+        result.push_back(current);
+        return;
+    }
+
+    char digit = digits[index];
+    std::string letters = digitMap.at(digit);
+
+    for (char letter : letters) {
+        generateCombinations(digits, index + 1, current + letter, digitMap, result);
+    }
+}
+
+std::vector<std::string> letterCombinations(std::string digits) {
+    std::vector<std::string> result;
+
+    if (digits.empty()) {
+        return result;
+    }
+
+    std::unordered_map<char, std::string> digitMap{
+        {'2', "abc"},
+        {'3', "def"},
+        {'4', "ghi"},
+        {'5', "jkl"},
+        {'6', "mno"},
+        {'7', "pqrs"},
+        {'8', "tuv"},
+        {'9', "wxyz"}
+    };
+
+    generateCombinations(digits, 0, "", digitMap, result);
+
+    return result;
+}
+
+int main() {
+    std::string digits = "23";  // Example input
+
+    std::vector<std::string> combinations = letterCombinations(digits);
+
+    std::cout << "Letter combinations for " << digits << ": ";
+    for (const std::string& combination : combinations) {
+        std::cout << combination << " ";
+    }
+
+    return 0;
+}
